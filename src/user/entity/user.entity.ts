@@ -15,12 +15,15 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 100 })
+  @Column({ length: 100, nullable: false })
   name: string;
 
   @Unique('email', ['email'])
-  @Column({ length: 320 })
+  @Column({ length: 320, nullable: false })
   email: string;
+
+  @Column({ length: 100, nullable: false })
+  password: string;
 
   @Column({ name: 'is_active' })
   isActive: boolean;
