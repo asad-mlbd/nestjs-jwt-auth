@@ -1,10 +1,12 @@
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { UtilsModule } from './utils/utils.module';
+import { JwtTokenMiddleware } from './auth/middleware/jwt-token.middleware';
+import { JwtModule } from '@nestjs/jwt';
+import { SharedModule } from './shared/shared.module';
 
 @Module({
   imports: [
@@ -19,11 +21,21 @@ import { UtilsModule } from './utils/utils.module';
       synchronize: true,
       debug: false,
     }),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '60s' },
+    }),
     AuthModule,
     UserModule,
-    UtilsModule,
+    SharedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(JwtTokenMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}

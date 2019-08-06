@@ -2,14 +2,13 @@ import { Module, forwardRef } from '@nestjs/common';
 import { UserModule } from './../user/user.module';
 import { AuthService } from './service/auth.service';
 import { AuthController } from './controller/auth/auth.controller';
-import { UtilsModule } from './../utils/utils.module';
+import { SharedModule } from 'src/shared/shared.module';
 
 
 @Module({
   imports: [
     forwardRef(() => UserModule),
-    forwardRef(() => UtilsModule),
-
+    forwardRef(() => SharedModule),
   ],
   providers: [
     AuthService,
