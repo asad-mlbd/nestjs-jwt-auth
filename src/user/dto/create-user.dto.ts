@@ -1,8 +1,22 @@
-export interface CreateUserDto {
+import { 
+  MaxLength, 
+  MinLength, 
+  IsEmail,
+  IsNotEmpty,
+} from 'class-validator';
 
-  name: string;
+export class CreateUserDto {
 
-  email: string;
+  @IsNotEmpty()
+  @MaxLength(100)
+  readonly name: string;
 
-  password: string;
+  @IsEmail()
+  @IsNotEmpty()
+  @MaxLength(320)
+  readonly email: string;
+
+  @MinLength(4)
+  @MaxLength(12)
+  readonly password: string;
 }

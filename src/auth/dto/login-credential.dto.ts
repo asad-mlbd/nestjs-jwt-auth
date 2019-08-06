@@ -1,6 +1,17 @@
-export interface LoginCredential {
+import { 
+  IsEmail, 
+  IsNotEmpty, 
+  MinLength, 
+  MaxLength
+} from 'class-validator';
 
-  email: string;
+export class LoginCredential {
 
-  password: string;
+  @IsEmail()
+  @IsNotEmpty()
+  readonly email: string;
+  
+  @MinLength(4)
+  @MaxLength(12)
+  readonly password: string;
 }
