@@ -1,11 +1,11 @@
 import {
-  Index,
   Entity,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryGeneratedColumn, 
   Unique } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 export type UserRole = 'admin' | 'user';
 
@@ -22,6 +22,7 @@ export class User {
   @Column({ length: 320, nullable: false })
   email: string;
 
+  @Exclude()
   @Column({ length: 100, nullable: false })
   password: string;
 
@@ -31,9 +32,11 @@ export class User {
   @Column('simple-array')
   roles: UserRole[];
 
+  @Exclude()
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
+  @Exclude()
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 }

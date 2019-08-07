@@ -1,4 +1,4 @@
-import { Controller, Get, HttpException, HttpStatus, UseGuards } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, UseGuards, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 import { UserService } from './../../service/user.service';
 import { IAuthUser, AuthUser, IsUser } from './../../../utils';
 
@@ -11,6 +11,7 @@ export class UserController {
 
   @Get('/me')
   @UseGuards(IsUser)
+  @UseInterceptors(ClassSerializerInterceptor)
   async getMe(
     @AuthUser() user: IAuthUser,
   ) {
