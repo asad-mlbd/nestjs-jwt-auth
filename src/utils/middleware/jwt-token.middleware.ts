@@ -13,20 +13,21 @@ export class JwtTokenMiddleware implements NestMiddleware {
 
     req.locals = req.locals || {};
     req.locals.user = null;
-    try {
-      if (req.headers.authorization) {
-        const token: string = req.headers.authorization.split(' ')[1];
-        const payload: any  = jwt.decode(token, { complete: true });
 
-        if(this.jwtService.verify(token)) {
-          req.locals.user = {
-            id    : payload.userId,
-            email : payload.email,
-            roles : payload.roles,
-          };
-        }
+    try {
+      const token: string = req.headers.authorization.split(' ')[1];
+      const decodedToken: any = jwt.decode(token, { complete: true });
+      const { payload } = decodedToken;
+
+      if (this.jwtService.verify(token)) {
+        req.locals.user = {
+          id    : payload.userId,
+          email : payload.email,
+          roles : payload.roles,
+        };
       }
-    } catch (error) {}
+    } catch (error) { }
+    
     next();
   }
 }

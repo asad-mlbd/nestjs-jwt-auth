@@ -1,12 +1,17 @@
 import { Module, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
-import { AppController } from './app.controller';
+import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppService } from './app.service';
+
+import { SharedModule } from './shared/shared.module';
+import { UtilsModule } from './utils/utils.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { JwtTokenMiddleware } from './auth/middleware/jwt-token.middleware';
-import { JwtModule } from '@nestjs/jwt';
-import { SharedModule } from './shared/shared.module';
+
+import { JwtTokenMiddleware } from './utils';
+
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+
 
 @Module({
   imports: [
@@ -28,6 +33,7 @@ import { SharedModule } from './shared/shared.module';
     AuthModule,
     UserModule,
     SharedModule,
+    UtilsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
