@@ -1,3 +1,5 @@
 export * from './interface/user';
 export * from './middleware/jwt-token.middleware';
-export * from './decorators/auth-user.decorator';
+export * from './decorator/auth-user.decorator';
+export * from './guard/is-role-user/is-role-user.guard';
+export * from './guard/is-user/is-user.guard';

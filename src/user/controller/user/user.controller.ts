@@ -1,6 +1,6 @@
-import { Controller, Get, HttpException, HttpStatus } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { UserService } from './../../service/user.service';
-import { IAuthUser, AuthUser } from './../../../utils';
+import { IAuthUser, AuthUser, IsUser } from './../../../utils';
 
 @Controller('user')
 export class UserController {
@@ -10,6 +10,7 @@ export class UserController {
   ) {}
 
   @Get('/me')
+  @UseGuards(IsUser)
   async getMe(
     @AuthUser() user: IAuthUser,
   ) {
