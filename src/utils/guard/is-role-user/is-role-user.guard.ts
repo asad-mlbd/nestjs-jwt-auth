@@ -2,11 +2,20 @@ import { ExecutionContext, Injectable, HttpStatus, HttpException } from '@nestjs
 import { UserRole } from './../../interface/user';
 import { IsUser } from '../is-user/is-user.guard';
 
+/**
+ * Abstact class IsRoleUser class to create role based guards
+ * */
 @Injectable()
 export abstract class IsRoleUser extends IsUser {
 
+  /**
+   * user exptected role
+   */
   protected abstract readonly role: UserRole;
 
+  /**
+   * @ignore
+   */
   canActivate(
     context: ExecutionContext,
   ): Promise<boolean> {

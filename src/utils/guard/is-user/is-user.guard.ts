@@ -1,11 +1,14 @@
 import { CanActivate, ExecutionContext, Injectable, HttpStatus, HttpException } from '@nestjs/common';
-import { IAuthUser, UserRole } from '../../interface/user';
-import { Observable } from 'rxjs';
-import { Http2ServerRequest } from 'http2';
 
+/**
+ * Auth guard for user
+ */
 @Injectable()
 export class IsUser implements CanActivate {
 
+  /**
+   * @ignore
+   */
   canActivate(
     context: ExecutionContext,
   ): Promise<boolean> {
@@ -19,6 +22,9 @@ export class IsUser implements CanActivate {
     return Promise.resolve(true);
   }
 
+  /**
+   * get context user from req
+   */
   protected getContextUser(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
     return request.locals.user;

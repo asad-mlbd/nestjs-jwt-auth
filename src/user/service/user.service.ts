@@ -5,13 +5,23 @@ import { User } from '../entity/user.entity';
 import { CreateUserDto } from '../dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
 
+/**
+ * User service
+ */
 @Injectable()
 export class UserService {
+
+  /**
+   * @ignore
+   */
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
 
+  /**
+   * create user
+   */
   async createUser(userData: CreateUserDto ) : Promise<User> {
     const user    = new User();
     user.name     = userData.name;
@@ -22,10 +32,16 @@ export class UserService {
     return this.userRepository.save(user);
   }
 
+  /**
+   * get user by email
+   */
   getUserByEmail(email): Promise<User> {
     return this.userRepository.findOne({ email : email });
   }
 
+  /**
+   * encrypt password
+   */
   hashPassword(password: string): Promise<string> {
     return new Promise((resolve, reject) => {
       bcrypt.genSalt(10, function(err, salt) {
@@ -36,6 +52,9 @@ export class UserService {
     });
   }
 
+  /**
+   * compare user password hash
+   */
   checkPassword(user: User, password: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       bcrypt.compare(password, user.password, (error, ok) => {

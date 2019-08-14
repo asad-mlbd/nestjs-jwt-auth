@@ -1,19 +1,29 @@
 import { Controller, Post, Body, HttpStatus, HttpException } from '@nestjs/common';
 import { AuthService } from './../../service/auth.service';
-import { CreateUserDto } from '../../../user';
+import { CreateUserDto, User } from '../../../user';
 import { LoginCredential } from './../../dto/login-credential.dto';
+import { TokenDto } from './../../dto/token.dto';
 
+/**
+ * Auth controller
+ */
 @Controller()
 export class AuthController {
 
+  /**
+   * @ignore
+   */
   constructor(
     private readonly service: AuthService,
   ) { }
 
+  /**
+   * Create new user
+   */
   @Post('register')
   async register(
     @Body() userDto: CreateUserDto,
-  ) {
+  ): Promise<User> {
     try {
       return await this.service.registerUser(userDto);
     } catch (error) {
@@ -25,12 +35,15 @@ export class AuthController {
     }    
   }
 
+  /**
+   * Login users
+   */
   @Post('login')
   async login(
     @Body() credential: LoginCredential,
-  ) {
+  ): Promise<TokenDto> {
     try {
-      return await this.service.login(credential);
+      return this.service.login(credential);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
