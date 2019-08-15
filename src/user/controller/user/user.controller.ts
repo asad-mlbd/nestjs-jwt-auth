@@ -2,6 +2,7 @@ import { Controller, Get, HttpException, HttpStatus, UseGuards, UseInterceptors,
 import { UserService } from './../../service/user.service';
 import { User } from './../../entity/user.entity';
 import { IAuthUser, AuthUser, IsUser } from './../../../utils';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 /**
  * User controller
@@ -20,6 +21,7 @@ export class UserController {
    * logged in user's profile
    */
   @Get('/me')
+  @ApiBearerAuth()
   @UseGuards(IsUser)
   @UseInterceptors(ClassSerializerInterceptor)
   async getMe(

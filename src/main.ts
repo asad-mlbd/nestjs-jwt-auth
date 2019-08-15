@@ -14,6 +14,7 @@ async function bootstrap() {
     .setTitle('Nest jwt starte')
     .setDescription('Jwt project started with nest js')
     .setVersion('1.0')
+    .addBearerAuth('Authorization', 'header')
     .addTag('jwt')
     .build();
 
