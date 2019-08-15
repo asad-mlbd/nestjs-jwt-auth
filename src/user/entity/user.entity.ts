@@ -3,7 +3,7 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  PrimaryGeneratedColumn, 
+  PrimaryGeneratedColumn,
   Unique } from 'typeorm';
 import { Exclude } from 'class-transformer';
 

@@ -9,7 +9,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
   ],
   exports: [
-    JwtModule
-  ]
+    JwtModule,
+  ],
 })
 export class SharedModule {}

@@ -4,8 +4,8 @@ import { JwtService } from '@nestjs/jwt';
 
 /**
  * JWT token middle wire
- * 
- * decode & verify authorization bearer token and 
+ *
+ * decode & verify authorization bearer token and
  * inject as req user
  */
 @Injectable()
@@ -19,7 +19,7 @@ export class JwtTokenMiddleware implements NestMiddleware {
   ) {}
 
   /**
-   * @ignore 
+   * @ignore
    */
   async use(req: any, res: any, next: () => void) {
 
@@ -38,8 +38,10 @@ export class JwtTokenMiddleware implements NestMiddleware {
           roles : payload.roles,
         };
       }
-    } catch (error) { }
-    
+    } catch (error) {
+      // do nothing
+    }
+
     next();
   }
 }

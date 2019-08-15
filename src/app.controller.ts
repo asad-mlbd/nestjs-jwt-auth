@@ -8,7 +8,7 @@ import { AppService } from './app.service';
 @Controller()
 export class AppController {
   /**
-   * @ignore 
+   * @ignore
    */
   constructor(private readonly appService: AppService) {}
 

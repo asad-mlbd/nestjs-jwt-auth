@@ -14,8 +14,8 @@ export class IsUser implements CanActivate {
   ): Promise<boolean> {
 
     const user = this.getContextUser(context);
-    
-    if(!user) {
+
+    if (!user) {
       throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
     }
 

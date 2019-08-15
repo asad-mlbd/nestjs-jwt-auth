@@ -31,7 +31,7 @@ export class AuthService {
    * login user
    */
   async login(credential: LoginCredential): Promise<TokenDto> {
-    
+
     const user = await this.userService.getUserByEmail(credential.email);
     const isMatched = await this.userService.checkPassword(user, credential.password);
 
@@ -40,9 +40,9 @@ export class AuthService {
     }
 
     return new Promise ((resolve, _) => {
-      
+
       resolve({
-        access_token: this.jwtService.sign({
+        accessToken: this.jwtService.sign({
           sub    : () => user.email,
           email  : user.email,
           roles  : user.roles,

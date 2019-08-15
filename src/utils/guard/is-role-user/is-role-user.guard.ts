@@ -4,7 +4,7 @@ import { IsUser } from '../is-user/is-user.guard';
 
 /**
  * Abstact class IsRoleUser class to create role based guards
- * */
+ */
 @Injectable()
 export abstract class IsRoleUser extends IsUser {
 
@@ -22,7 +22,7 @@ export abstract class IsRoleUser extends IsUser {
 
     const user = this.getContextUser(context);
 
-    if(!user) {
+    if (!user) {
       throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
     }
 

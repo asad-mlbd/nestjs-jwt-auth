@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 /**
  * @ignore
@@ -8,6 +9,16 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // app.setGlobalPrefix('api');
+
+  const options = new DocumentBuilder()
+    .setTitle('Nest jwt starte')
+    .setDescription('Jwt project started with nest js')
+    .setVersion('1.0')
+    .addTag('jwt')
+    .build();
+
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('api', app, document);
 
   /**
    * Validation pipe transform json body

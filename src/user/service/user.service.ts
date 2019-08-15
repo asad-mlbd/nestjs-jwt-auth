@@ -22,7 +22,7 @@ export class UserService {
   /**
    * create user
    */
-  async createUser(userData: CreateUserDto ) : Promise<User> {
+  async createUser(userData: CreateUserDto ): Promise<User> {
     const user    = new User();
     user.name     = userData.name;
     user.email    = userData.email;
@@ -36,7 +36,7 @@ export class UserService {
    * get user by email
    */
   getUserByEmail(email): Promise<User> {
-    return this.userRepository.findOne({ email : email });
+    return this.userRepository.findOne({ email });
   }
 
   /**
@@ -44,9 +44,13 @@ export class UserService {
    */
   hashPassword(password: string): Promise<string> {
     return new Promise((resolve, reject) => {
-      bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(password, salt, function(err, hash) {
-          return err ? reject(null): resolve(hash);
+      bcrypt.genSalt(10, (err, salt) => {
+        if (err) {
+          return reject(null);
+        }
+
+        bcrypt.hash(password, salt, (err2, hash) => {
+          return err2 ? reject(null) : resolve(hash);
         });
       });
     });

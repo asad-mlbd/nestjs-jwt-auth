@@ -4,7 +4,6 @@ import { AuthService } from './service/auth.service';
 import { AuthController } from './controller/auth/auth.controller';
 import { SharedModule } from './../shared/shared.module';
 
-
 @Module({
   imports: [
     forwardRef(() => UserModule),
@@ -14,7 +13,7 @@ import { SharedModule } from './../shared/shared.module';
     AuthService,
   ],
   controllers: [
-    AuthController
+    AuthController,
   ],
 })
 export class AuthModule {}

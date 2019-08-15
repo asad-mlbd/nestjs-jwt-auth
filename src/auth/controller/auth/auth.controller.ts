@@ -32,7 +32,7 @@ export class AuthController {
         error.message = `user already exists with email ${userDto.email}`;
       }
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
-    }    
+    }
   }
 
   /**

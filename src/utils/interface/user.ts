@@ -11,12 +11,12 @@ export interface IAuthUser {
   /**
    * usre id
    */
-  id    : number;
-  
+  id: number;
+
   /**
    * user email
    */
-  email : string;
+  email: string;
 
   /**
    * optional user name
@@ -26,5 +26,5 @@ export interface IAuthUser {
   /**
    * user roles array
    */
-  roles : [UserRole]
+  roles: [UserRole];
 }
