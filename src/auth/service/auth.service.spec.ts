@@ -3,7 +3,6 @@ import { AuthService } from './auth.service';
 import { User, CreateUserDto, UserService } from '../../user';
 import { JwtService } from '@nestjs/jwt';
 
-
 describe('AuthService', () => {
   let service: AuthService;
 
