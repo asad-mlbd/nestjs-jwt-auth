@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { JwtTokenMiddleware } from './jwt-token.middleware';
+import { JwtService } from '@nestjs/jwt';
 
 describe('JwtTokenUserMiddleware', () => {
 
@@ -9,6 +10,10 @@ describe('JwtTokenUserMiddleware', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         JwtTokenMiddleware,
+        {
+          provide: JwtService,
+          useValue: {},
+        },
       ],
     }).compile();
 
