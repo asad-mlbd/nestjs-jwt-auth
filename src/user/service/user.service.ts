@@ -39,6 +39,10 @@ export class UserService {
     return this.userRepository.findOne({ email });
   }
 
+  getAllUsers(): Promise<User[]> {
+    return this.userRepository.find();
+  }
+
   /**
    * encrypt password
    */
