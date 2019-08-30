@@ -18,6 +18,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: nest-jwt-db
     ports:
       - 3306:3306
 

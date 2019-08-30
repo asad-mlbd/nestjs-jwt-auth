@@ -16,7 +16,7 @@ export class JwtTokenMiddleware implements NestMiddleware {
    */
   constructor(
     protected readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
   /**
    * @ignore
@@ -26,22 +26,37 @@ export class JwtTokenMiddleware implements NestMiddleware {
     req.locals = req.locals || {};
     req.locals.user = null;
 
-    try {
-      const token: string = req.headers.authorization.split(' ')[1];
-      const decodedToken: any = jwt.decode(token, { complete: true });
-      const { payload } = decodedToken;
+    const token: string = this.getBearerToken(req);
+    if (token) {
+      const isTokenValid: boolean = this.verifyToken(token);
 
-      if (this.jwtService.verify(token)) {
+      if (isTokenValid) {
+        const payload: any = this.getTokenPayload(token);
         req.locals.user = {
           id    : payload.userId,
           email : payload.email,
           roles : payload.roles,
         };
       }
-    } catch (error) {
-      // do nothing
     }
 
     next();
+  }
+
+  private getTokenPayload(token: string): any {
+    const decodedToken: any = jwt.decode(token, { complete: true });
+    return decodedToken.payload;
+  }
+
+  private verifyToken(token: string): boolean {
+    return !!this.jwtService.verify(token);
+  }
+
+  private getBearerToken(req: any): string {
+    try {
+      return req.headers.authorization.split(' ')[1];
+    } catch (error) {
+      return null;
+    }
   }
 }
