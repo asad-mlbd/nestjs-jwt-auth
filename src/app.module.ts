@@ -15,21 +15,11 @@ import { JwtTokenMiddleware, LoggerInterceptor } from './utils';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import * as ormConfig from './orm.config';
 
 @Module({
   imports: [
-    WinstonModule.forRoot(loggerConf),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : null,
-      username: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_NAME,
-      entities: [__dirname + '/**/**/*.entity{.ts,.js}'],
-      synchronize: true,
-      debug: false,
-    }),
+    TypeOrmModule.forRoot(ormConfig),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '60s' },
