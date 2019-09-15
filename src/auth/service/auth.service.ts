@@ -33,10 +33,19 @@ export class AuthService {
   async login(credential: LoginCredential): Promise<TokenDto> {
 
     const user = await this.userService.getUserByEmail(credential.email);
+
+    if (!user) {
+      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+    }
+
     const isMatched = await this.userService.checkPassword(user, credential.password);
 
     if (!isMatched) {
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+    }
+
+    if (!user.isActive) {
+      throw new HttpException('Inactive user', HttpStatus.UNAUTHORIZED);
     }
 
     return new Promise ((resolve, _) => {
