@@ -29,7 +29,17 @@ export class UserService {
     user.roles    = ['user'];
     user.isActive = true;
     user.password = await this.hashPassword(userData.password);
-    return this.userRepository.save(user);
+
+    try {
+      return this.userRepository.save(user);
+    } catch (error) {
+      // process email duplicate err msg
+      if (error.code === 'ER_DUP_ENTRY') {
+        throw new Error(`user already exists with email ${user.name}`);
+      }
+
+      throw error;
+    }
   }
 
   /**

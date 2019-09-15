@@ -1,9 +1,17 @@
-import { Controller, Get, HttpException, HttpStatus, UseGuards, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
-import { UserService } from './../../service/user.service';
-import { User } from './../../entity/user.entity';
-import { IAuthUser, AuthUser, RolesGuard } from './../../../utils';
+import {
+  Get,
+  UseGuards,
+  Controller,
+  HttpStatus,
+  HttpException,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+} from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { Roles } from 'src/utils/decorator/roles.decorator';
+
+import { User } from './../../entity/user.entity';
+import { UserService } from './../../service/user.service';
+import { IAuthUser, AuthUser, RolesGuard, Roles } from './../../../utils';
 
 /**
  * User controller
