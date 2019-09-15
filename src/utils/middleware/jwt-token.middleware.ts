@@ -43,15 +43,24 @@ export class JwtTokenMiddleware implements NestMiddleware {
     next();
   }
 
+  /**
+   * Decode given jwt token and returns token payload
+   */
   private getTokenPayload(token: string): any {
     const decodedToken: any = jwt.decode(token, { complete: true });
     return decodedToken.payload;
   }
 
+  /**
+   * verify token
+   */
   private verifyToken(token: string): boolean {
     return !!this.jwtService.verify(token);
   }
 
+  /**
+   * returns bearer header authorization token from request object
+   */
   private getBearerToken(req: any): string {
     try {
       return req.headers.authorization.split(' ')[1];

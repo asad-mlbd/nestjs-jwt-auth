@@ -44,6 +44,9 @@ export class UserController {
     }
   }
 
+  /**
+   * Get all user list
+   */
   @Get()
   @ApiBearerAuth()
   @UseGuards(RolesGuard)

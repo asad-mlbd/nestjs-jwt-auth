@@ -1,11 +1,20 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
+/**
+ * Role based auth guard
+ */
 @Injectable()
 export class RolesGuard implements CanActivate {
 
+  /**
+   * @ignore
+   */
   constructor(private readonly reflector: Reflector) {}
 
+  /**
+   * @ignore
+   */
   canActivate(context: ExecutionContext): boolean {
     const roles = this.reflector.get<string[]>('roles', context.getHandler());
 
