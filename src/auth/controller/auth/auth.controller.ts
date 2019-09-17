@@ -3,6 +3,7 @@ import { AuthService } from './../../service/auth.service';
 import { CreateUserDto, User } from '../../../user';
 import { LoginCredential } from './../../dto/login-credential.dto';
 import { TokenDto } from './../../dto/token.dto';
+import { RefreshTokenDto } from './../../dto/refresh-token.dto';
 
 /**
  * Auth controller
@@ -41,6 +42,20 @@ export class AuthController {
   ): Promise<TokenDto> {
     try {
       return this.service.login(credential);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  /**
+   * Access token generation using refresh token
+   */
+  @Post('refresh-token')
+  async refreshToken(
+    @Body() token: RefreshTokenDto,
+  ): Promise<TokenDto> {
+    try {
+      return this.service.refreshToken(token);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
