@@ -43,6 +43,13 @@ export class UserService {
   }
 
   /**
+   * get user by id
+   */
+  getUserById(id: number): Promise<User> {
+    return this.userRepository.findOne(id);
+  }
+
+  /**
    * get user by email
    */
   getUserByEmail(email): Promise<User> {

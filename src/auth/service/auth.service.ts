@@ -3,7 +3,6 @@ import { User, CreateUserDto, UserService } from '../../user';
 import { LoginCredential } from '../dto/login-credential.dto';
 import { TokenDto } from './../dto/token.dto';
 import { RefreshTokenDto } from './../dto/refresh-token.dto';
-
 import { JwtService } from '@nestjs/jwt';
 
 /**
@@ -50,17 +49,8 @@ export class AuthService {
       throw new HttpException('Inactive user', HttpStatus.UNAUTHORIZED);
     }
 
-    return new Promise((resolve, _) => {
-
-      resolve({
-        accessToken: this.jwtService.sign({
-          sub: () => user.email,
-          email: user.email,
-          roles: user.roles,
-          userId: user.id,
-        }),
-      });
-    });
+    const authToken: TokenDto = this.generateAuthToken(user);
+    return Promise.resolve(authToken);
   }
 
   /**
@@ -68,28 +58,54 @@ export class AuthService {
    */
   async refreshToken(token: RefreshTokenDto): Promise<TokenDto> {
 
-    const decodedToken: any = this.jwtService.decode(token.refreshToken, { complete: true });
-    const payload: User = decodedToken.payload;
-    const user = await this.userService.getUserByEmail(payload.email);
+    let payload: any;
 
-    // todo replace using a function call
+    try {
+      payload = this.jwtService.verify(token.refreshToken);
+    } catch (error) {
+      throw new HttpException('Invalid refresh token', HttpStatus.UNAUTHORIZED);
+    }
+
+    const { userId, type } = payload;
+
+    if (type !== 'refresh') {
+      throw new HttpException('Wrong token type', HttpStatus.UNAUTHORIZED);
+    }
+
+    const user = await this.userService.getUserById(userId);
+
     if (!user) {
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
     }
 
-    // todo replace using a function call
     if (!user.isActive) {
       throw new HttpException('Inactive user', HttpStatus.UNAUTHORIZED);
     }
-    return new Promise((resolve, _) => {
-      resolve({
-        accessToken: this.jwtService.sign({
-          sub: () => user.email,
-          email: user.email,
-          roles: user.roles,
-          userId: user.id,
-        }),
-      });
+
+    const authToken = this.generateAuthToken(user);
+    return Promise.resolve(authToken);
+  }
+
+  /**
+   * Generate Auth Token
+   * @param user
+   */
+  private generateAuthToken(user: User): TokenDto {
+
+    const accessToken = this.jwtService.sign({
+      sub: () => user.email,
+      type: 'access',
+      email: user.email,
+      roles: user.roles,
+      userId: user.id,
     });
+
+    const refreshToken = this.jwtService.sign({
+      sub: () => user.email,
+      type: 'refresh',
+      userId: user.id,
+    });
+
+    return { accessToken, refreshToken };
   }
 }
