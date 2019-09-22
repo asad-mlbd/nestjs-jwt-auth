@@ -8,7 +8,6 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
  */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // app.setGlobalPrefix('api');
 
   const options = new DocumentBuilder()
     .setTitle('Nest jwt starte')
@@ -20,6 +19,9 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
+
+  const logger = app.get('NestWinston');
+  app.useLogger(logger);
 
   /**
    * Validation pipe transform json body

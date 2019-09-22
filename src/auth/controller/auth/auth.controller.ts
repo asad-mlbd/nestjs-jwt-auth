@@ -1,9 +1,10 @@
-import { Controller, Post, Body, HttpStatus, HttpException, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
+import { Inject,  Controller, Post, Body, HttpStatus, HttpException, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 import { AuthService } from './../../service/auth.service';
 import { CreateUserDto, User } from '../../../user';
 import { LoginCredential } from './../../dto/login-credential.dto';
 import { TokenDto } from './../../dto/token.dto';
 import { RefreshTokenDto } from './../../dto/refresh-token.dto';
+import { Logger } from 'winston';
 
 /**
  * Auth controller
@@ -15,6 +16,8 @@ export class AuthController {
    * @ignore
    */
   constructor(
+    @Inject('winston')
+    private readonly logger: Logger,
     private readonly service: AuthService,
   ) { }
 
@@ -41,8 +44,9 @@ export class AuthController {
     @Body() credential: LoginCredential,
   ): Promise<TokenDto> {
     try {
-      return this.service.login(credential);
+      return await this.service.login(credential);
     } catch (error) {
+      this.logger.warn('Login attempt failed', credential);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -57,6 +61,7 @@ export class AuthController {
     try {
       return this.service.refreshToken(token);
     } catch (error) {
+      this.logger.warn('Refresh token attempt failed', token);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
