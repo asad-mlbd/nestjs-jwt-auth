@@ -36,17 +36,17 @@ export class AuthService {
     const user = await this.userService.getUserByEmail(credential.email);
 
     if (!user) {
-      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+      throw new Error('Invalid credentials');
     }
 
     const isMatched = await this.userService.checkPassword(user, credential.password);
 
     if (!isMatched) {
-      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+      throw new Error('Invalid credentials');
     }
 
     if (!user.isActive) {
-      throw new HttpException('Inactive user', HttpStatus.UNAUTHORIZED);
+      throw new Error('Inactive user');
     }
 
     const authToken: TokenDto = this.generateAuthToken(user);
@@ -63,23 +63,23 @@ export class AuthService {
     try {
       payload = this.jwtService.verify(token.refreshToken);
     } catch (error) {
-      throw new HttpException('Invalid refresh token', HttpStatus.UNAUTHORIZED);
+      throw new Error('Invalid refresh token');
     }
 
     const { userId, type } = payload;
 
     if (type !== 'refresh') {
-      throw new HttpException('Wrong token type', HttpStatus.UNAUTHORIZED);
+      throw new Error('Wrong token type');
     }
 
     const user = await this.userService.getUserById(userId);
 
     if (!user) {
-      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+      throw new Error('Invalid user');
     }
 
     if (!user.isActive) {
-      throw new HttpException('Inactive user', HttpStatus.UNAUTHORIZED);
+      throw new Error('Inactive user');
     }
 
     const authToken = this.generateAuthToken(user);
