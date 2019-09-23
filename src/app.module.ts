@@ -24,6 +24,7 @@ import * as ormConfig from './orm.config';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '60s' },
     }),
+    WinstonModule.forRoot(loggerConf),
     AuthModule,
     UserModule,
     SharedModule,
