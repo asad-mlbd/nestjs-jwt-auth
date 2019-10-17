@@ -1,9 +1,8 @@
-
-FROM node:8-alpine
+FROM node:12-alpine
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-COPY . .
+COPY yarn.lock package.json ./
 RUN yarn install
-RUN yarn run build
+COPY . .
 EXPOSE 3000
 CMD [ "yarn", "run", "start:dev" ]
