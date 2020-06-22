@@ -15,7 +15,7 @@ const config: ConnectionOptions = {
     entitiesDir: 'src',
     migrationsDir: 'src/migrations',
   },
-  synchronize: false,
+  synchronize: process.env.NODE_ENV === 'development' ? true: false,
   debug: true,
 };
 
