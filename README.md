@@ -35,22 +35,28 @@ NestJS JWT authentication service using NestJS, Docker and MySQL. It can be used
     - Browse (for Docker only) DB `Adminer` at [http://localhost:8080](http://localhost:8080)
     - Browse `Swagger Open API` Doc at [http://localhost:3000/api](http://localhost:3000/api)
 
-## Running The App
+## Migration
 
-`yarn run start` or `npm run start`
+- `TypeORM CLI` used to manage DB migration. ORM configurations are available in the `orm.config.ts` file.
+- Migration auto-synchronization is set to `true` in `development` environment, and `false` in other environments.
+- To create a new empty migration file, use `migration:create` command.
+```
+$ yarn migration:create -n createUsers
+```
+- TypeORM can generate a migration file from changed entity files comparing with the database. To generate a populated migration file from entity files, use `migration:generate` command
+```
+$ yarn migration:generate -n createUsers
+```
+- To run DB migration:
+```
+$ yarn migration:run
+```
+- To rollback migration:
+```
+$ yarn migration:revert
+```
 
-## Migration Commands
-
-Synchronise and initial migration is set to false, so you need to run commands for the migrations. Here are some list of commands:
-
-- Generate migration file with populated up and down functions, from User entity:
-  `yarn migration:generate -n createUsers`
-- Create a template for User table with empty up and down functions:
-  `yarn migration:create -n createUsers`
-- Run migration command:
-  `yarn migration:run`
-- Run migration rollback:
-  `yarn migration:revert`
+Read more about TypeORM migration [here][https://typeorm.io/#/migrations]
 
 ## Running Test
 
