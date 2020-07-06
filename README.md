@@ -29,11 +29,16 @@ NestJS JWT authentication service using NestJS, Docker and MySQL. It can be used
     $ yarn
     $ yarn run start
     ```
+- **API Documentation**
+    - To get API documentation run following command & browse at [http://127.0.0.1:8089/](http://127.0.0.1:8089/)
+    ```
+    $ yarn run start:api-doc
+    ```
 - **API** 
   With above steps done, API should be up and running
     - Browse `API` at [http://localhost:3000](http://localhost:3000)
-    - Browse (for Docker only) DB `Adminer` at [http://localhost:8080](http://localhost:8080)
     - Browse `Swagger Open API` Doc at [http://localhost:3000/api](http://localhost:3000/api)
+    - Browse (for Docker only) DB `Adminer` at [http://localhost:8080](http://localhost:8080)
 
 ## Migration
 
